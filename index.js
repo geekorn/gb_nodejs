@@ -1,12 +1,12 @@
 var ansi = require('ansi'),
     cursor = ansi(process.stdout);
 
+cursor.beep();
+
 let chalk = require('chalk');
 let error = chalk.red.bold;
 let warning = chalk.yellow;
 let result = chalk.black.bgCyan;
-
-cursor.beep();
 
 function diff (a, b) {
     if (b == 0) {
