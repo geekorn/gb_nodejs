@@ -1,4 +1,9 @@
 const inquirer = require('inquirer');
+const chalk = require('chalk');
+
+var error = chalk.red.bold;
+var warning = chalk.yellow;
+var result = chalk.black.bgCyan;
 
 var rounds = [];
 var questions = [
@@ -51,7 +56,7 @@ function playGame() {
             });
 
 
-            (answers.round == random) ? console.log('You win') : console.log('You lose');
+            (answers.round == random) ? console.log(result('You win')) : console.log(error('You lose'));
         })
         .then(function () {
             inquirer.prompt(askAgain).then(function (answer) {
