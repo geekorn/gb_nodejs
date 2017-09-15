@@ -1,22 +1,29 @@
-var ansi = require('ansi'),
-    cursor = ansi(process.stdout);
+const express = require('express');
+const app = express();
+const http = require('http');
+const server = http.createServer(app);
+const request = require('request');
+const bodyParser = require('body-parser');
+const templating = require('consolidate');
 
-cursor.beep();
 
-let chalk = require('chalk');
-let error = chalk.red.bold;
-let warning = chalk.yellow;
-let result = chalk.black.bgCyan;
+const PORT = 8080;
+const URL = 'https://habrahabr.ru/';
 
-function diff (a, b) {
-    if (b == 0) {
-        return error('На 0 делить нельзя');
-    }
+app.engine('hbs', templating.handlebars);
+app.set('view engine', 'hbs');
+app.set('views', __dirname + '/views')
 
-    return result(a / b);
-}
+app.get('/', (req, res) => {
+    res.render('index', {
+        title: 'App work :)'
+    })
+})
 
-console.log(diff(40,20));
-
-console.log(error('Error: noname error'));
-console.log(warning('just a warning'));
+app.listen(PORT, () => {
+    console.log(`Server listening on http://localhost:${PORT}, Ctrl+C to stop`);
+})
+// server.listen(PORT, 'localhost');
+// server.on('listening', function () {
+//   console.log('Express server started on port %s at %s', server.address().port, server.address().address);
+// });
