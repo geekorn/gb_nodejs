@@ -12,7 +12,19 @@ module.exports = {
         {
             name: 'Дизайн',
             link: 'design'
+        },
+        {
+            name: 'Управление',
+            link: 'management'
+        },
+        {
+            name: 'Маркетинг',
+            link: 'marketing'
+        },
+        {
+            name: 'Разное',
+            link: 'misc'
         }
     ],
-    counts: [1, 2, 4, 8 ,10];
+    counts: [1, 2, 4, 8 ,10]
 }
