@@ -1,31 +1,43 @@
 const request = require('request');
 const cheerio = require('cheerio');
 
-function getNews (url) {
-    request(url, (error, response, body) => {
-        if (error) {
-            return console.error('error is: ', error);
-        }
-    
-        if (response.statusCode !== 200) {
-            return console.error('incorrect statusCode: ', response.statusCode);
-        }
+/**
+ * функция парcинга сайта, возвращает промисс
+ * @param {string} url 
+ * @param {number} count 
+ */
+function getNews(category, count) {
+    const URL = 'https://habrahabr.ru/flows/' + category;
 
-        const $ = cheerio.load(html);
+    return new Promise((resolve, reject) => {
+        request(URL, (error, response, body) => {
+            if (error) {
+                reject(error);
+            }
         
+            if (response.statusCode !== 200) {
+                reject(response.statusCode);
+            }
+
+            const $ = cheerio.load(body);
+            const posts = [];
+            
             $('.post').each( (i, item) => {
-                let post = {
-                    toString: function () {
-                        return `${this.time} | ${this.author} | <a href="${this.link}">${this.title}</a>`
-                    }
+                let post = {};
+
+                if (i < count) {
+                    post.author = $(item).find('.user-info__nickname').text();
+                    post.title = $(item).find('.post__title_link').text();
+                    post.link = $(item).find('.post__title_link').attr('href');
+                    post.time = $(item).find('.post__time').text();
+            
+                    posts.push(post)
                 };
-        
-                post.author = $(item).find('.user-info__nickname').text();
-                post.title = $(item).find('.post__title_link').text();
-                post.link = $(item).find('.post__title_link').attr('href');
-                post.time = $(item).find('.post__time').text();
-        
-                posts.push(post.toString())
             })
+
+            resolve(posts)
+        })
     })
-}
+};
+
+module.exports = getNews;

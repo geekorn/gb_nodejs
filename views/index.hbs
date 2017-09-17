@@ -8,5 +8,32 @@
 </head>
 <body>
     <h1>{{title}}</h1>
+    <div class="asd"></div>
+    <form action="/getnews" method="post">
+        <select name="category" id="category">
+            {{#each categories}}
+                <option value="{{link}}">{{name}}</option>
+            {{/each}}
+        </select>
+        <select name="count" id="count">
+            {{#each counts}}
+                <option value="{{this}}">{{this}}</option>
+            {{/each}}
+        </select>
+        <button type="submit">OK</button>
+    </form>
+
+    {{#if news.length}}
+        <div class="news">
+            <ul class="news__list">
+                {{#each news}}
+                    <li class="news__item">
+                        <a href="{{link}}" class="new__link">{{title}}</a>
+                        <div class="news__author">{{author}}</div>
+                    </li>
+                {{/each}}
+            </ul>    
+        </div>
+    {{/if}}
 </body>
 </html>
