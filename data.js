@@ -14,5 +14,5 @@ module.exports = {
             link: 'design'
         }
     ],
-    counts: [5, 10, 15]
+    counts: [1, 2, 4, 8 ,10];
 }

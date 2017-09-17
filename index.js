@@ -31,23 +31,23 @@ app.get('/', (req, res) => {
 })
 
 // обработка post запроса
-app.post('/getnews', (req, res) => {
-    // сбор данных и запуск функции.
-    console.dir(req)
-    // console.log(req.body.count)
+app.post('/news', (req, res) => {  
+    console.dir('req.body')  
+    getNews(req.body.category, req.body.count)
+        .then( 
+            (result) => {
+                data.news = {
+                    category: req.body.category,
+                    articles: result
+                };
+                console.dir(data)
+                res.render('index', data)
+            },
 
-    
-    getNews('admin', 10).then( 
-        (result) => {
-            
-            data.news = result;
-            data.req = req;
-            // console.dir(req)
-            res.render('index', data)
-        },
-        (error) => {
-            console.error(error)
-        })
+            (error) => {
+                console.error(error)
+            }
+        )
 })
 
 // server create
