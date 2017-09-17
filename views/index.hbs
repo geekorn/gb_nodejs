@@ -7,21 +7,7 @@
     <title>Document</title>
 </head>
 <body>
-    <h1>{{title}}</h1>
-    <div class="asd"></div>
-    <form action="/getnews" method="post">
-        <select name="category" id="category">
-            {{#each categories}}
-                <option value="{{link}}">{{name}}</option>
-            {{/each}}
-        </select>
-        <select name="count" id="count">
-            {{#each counts}}
-                <option value="{{this}}">{{this}}</option>
-            {{/each}}
-        </select>
-        <button type="submit">OK</button>
-    </form>
+    <h1>TODOS</h1>
 
     {{#if news.length}}
         <div class="news">
