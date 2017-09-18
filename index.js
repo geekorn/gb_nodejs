@@ -32,14 +32,15 @@ app.get('/', (req, res) => {
             },
             error => {
                 console.dir('error index.js')
-            },
-        );
+            }
+        )
 })
 
 app.post('/newTask', (req, res) => {
     // console.dir(req.body)
-    db.addTask(req.body.task)
-    res.redirect('/')
+    db.addTask(req.body.task).then( () => {
+        res.redirect('/')        
+    })
 })
 
 // server create
