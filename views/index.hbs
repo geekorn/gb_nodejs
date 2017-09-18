@@ -5,21 +5,71 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
+
+    <style>
+        .wrapper {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+
+        .container {
+            width: 50%;
+            margin: 0 auto;
+            text-align: center;
+        }
+        .todos__list {
+            text-align: left;
+            list-style: none;
+        }
+        .todo {
+            border: 1px solid #000000;
+            box-shadow: 0 0 2px rgba(255,255,255, 0.5)
+        }
+        .todo__name {
+            padding: 10px 20px;
+            outline: none;
+        }
+        .todo__body {
+            display: flex;
+            padding: 10px 20px;            
+        }
+        .todo__description {
+            flex: 1;
+        }
+    </style>
 </head>
 <body>
-    <h1>TODOS</h1>
 
-    {{#if news.length}}
-        <div class="news">
-            <ul class="news__list">
-                {{#each news}}
-                    <li class="news__item">
-                        <a href="{{link}}" class="new__link">{{title}}</a>
-                        <div class="news__author">{{author}}</div>
-                    </li>
-                {{/each}}
-            </ul>    
+    <div class="wrapper">
+        <div class="container">
+            <h1>TODOS</h1>
+            <div class="new-todo">
+                <form action="/newTask" method="POST">
+                    <input class="new-todo__input-name" name="task" type="text" placeholder="Новая заметка">
+                    <button type="submit" class="btn">Добавить заметку</button>
+                </form>
+            </div>
+            {{#if tasks.length}}
+                <ul class="todos__list">
+                    {{#each tasks}}
+                        <li class="todos__item">
+                            <details class="todo" close>
+                                <summary class="todo__name">{{this.name}}</summary>
+                                <div class="todo__body">
+                                    <div class="todo__description">{{this.description}}</div>
+                                    <div class="todo__buttons">
+                                        <button type="button">Изменить</button>
+                                        <button type="button">Удалить</button>
+                                    </div>
+                                </div>
+                            </details> 
+                        </li>
+                    {{/each}}
+                </ul>
+            {{/if}}
         </div>
-    {{/if}}
+    </div>
+
 </body>
 </html>

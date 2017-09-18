@@ -29,17 +29,20 @@ app.get('/', (req, res) => {
         .then(
             resolve => {
                 res.render('index', resolve)
-                console.dir(resolve)
             },
             error => {
-                console.dir('error index.js 32')
+                console.dir('error index.js')
             },
         );
-    // res.render('index', data)
+})
 
+app.post('/newTask', (req, res) => {
+    // console.dir(req.body)
+    db.addTask(req.body.task)
+    res.redirect('/')
 })
 
 // server create
-// app.listen(config.server.port, () => {
-//     console.log(`Server listening on http://localhost:${config.server.port}, Ctrl+C to stop`);
-// })
+app.listen(config.server.port, () => {
+    console.log(`Server listening on http://localhost:${config.server.port}, Ctrl+C to stop`);
+})

@@ -6,25 +6,44 @@ const QUERY = {
     getById: 'SELECT * FROM todos WHERE id='
 }
 
+const data = {
+    tasks: [
+        {
+            id: 1,
+            name: 'Первая заметка',
+            description: 'Описание заметки'
+        }
+    ]};
+
 module.exports = {    
     getAll () {
         return new Promise((resolve, reject) => {
-            pool.getConnection( (error, connection) => {
-                if (error) reject(error);
+            resolve(data);
+            // pool.getConnection( (error, connection) => {
+            //     if (error) reject(error);
 
-                connection.query(QUERY.getAll, (err, rows) => {
-                    if (err || !rows) {
-                        reject(err);
-                    }
+            //     connection.query(QUERY.getAll, (err, rows) => {
+            //         if (err || !rows) {
+            //             reject(err);
+            //         }
 
-                    resolve(rows);
-                    connection.release()
-                })
-            })
+            //         resolve(rows);
+            //         connection.release()
+            //     })
+            // })
         })
     },
 
     getById (id) {
 
     },
+    addTask (task) {
+        let newTask = {
+            id: data.tasks.length + 1,
+            name: task,
+        };
+
+        data.tasks.push(newTask);
+        console.dir(data.tasks)
+    }
 }
