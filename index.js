@@ -28,7 +28,8 @@ app.get('/', (req, res) => {
     db.getAll()
         .then(
             resolve => {
-                res.render('index', resolve)
+                console.dir(resolve)
+                res.render('index', { tasks: resolve })
             },
             error => {
                 console.dir('error index.js')
@@ -36,9 +37,17 @@ app.get('/', (req, res) => {
         )
 })
 
-app.post('/newTask', (req, res) => {
+app.post('/add', (req, res) => {
     // console.dir(req.body)
-    db.addTask(req.body.task).then( () => {
+    db.add(req.body.task).then( () => {
+        res.redirect('/')        
+    })
+})
+
+app.get('/delete/:id', (req, res) => {
+    console.dir(req.params)
+    db.delete(req.params.id).then( (sql) => {
+        console.dir(sql)
         res.redirect('/')        
     })
 })

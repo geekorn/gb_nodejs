@@ -45,7 +45,7 @@
         <div class="container">
             <h1>TODOS</h1>
             <div class="new-todo">
-                <form action="/newTask" method="POST">
+                <form action="/add" method="POST">
                     <input class="new-todo__input-name" name="task" type="text" placeholder="Новая заметка">
                     <button type="submit" class="btn">Добавить заметку</button>
                 </form>
@@ -55,11 +55,12 @@
                     {{#each tasks}}
                         <li class="todos__item">
                             <details class="todo" close>
-                                <summary class="todo__name">{{this.name}}</summary>
+                                <summary class="todo__name">{{this.title}}</summary>
                                 <div class="todo__body">
                                     <div class="todo__description">{{this.description}}</div>
                                     <div class="todo__buttons">
-                                        <button type="button">Изменить</button>
+                                        <button  type="button">Изменить</button>
+                                        <a href="/delete/{{this.id}}" class="btn">Удалить</a>
                                         <button type="button">Удалить</button>
                                     </div>
                                 </div>

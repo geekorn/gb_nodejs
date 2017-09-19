@@ -15,6 +15,7 @@ module.exports = {
                         reject(err);
                     }
 
+                    console.dir(rows)
                     resolve(rows);
                     connection.release()
                 })
@@ -40,8 +41,9 @@ module.exports = {
             })
         })
     },
-    addTask (task) {
-        const sql = `INSERT INTO todos (title, description) VALUES (${task}, "Описание заметки")`;
+    add (task) {
+        console.dir(task)
+        const sql = `INSERT INTO todos (title, description) VALUES ("${task}", "Описание заметки")`;
 
         return new Promise((resolve, reject) => {
             pool.getConnection( (error, connection) => {
@@ -53,7 +55,23 @@ module.exports = {
                     resolve();
                   });
             })
+        })        
+    },
+
+    delete (id) {
+        const sql = `DELETE FROM todos WHERE id="${id}"`;
+        console.dir(id)
+
+        return new Promise((resolve, reject) => {
+            pool.getConnection( (error, connection) => {
+                if (error) reject(error);
+
+                connection.query(sql, function (err, result) {
+                    if (err) throw err;
+                    console.log("1 record inserted");
+                    resolve(sql);
+                  });
+            })
         })
-        
     }
 }
