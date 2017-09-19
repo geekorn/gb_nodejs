@@ -7,12 +7,9 @@ const request = require('request');
 const bodyParser = require('body-parser');
 const templating = require('consolidate');
 
-// import modules & data
-const getNews = require('./models/news.js');
-const data = require('./data.js');
-
-// global variables declaration
-const PORT = 8080;
+// import config & data
+const config = require('./config.js');
+const db = require('./models/todos');
 
 // view engine setup
 app.engine('hbs', templating.handlebars);
@@ -25,36 +22,37 @@ app.use(bodyParser.urlencoded({ extended: false }))
 // parse application/json
 app.use(bodyParser.json())
 
-// app routers 
+// console.dir(data)
+// // app routers 
 app.get('/', (req, res) => {
-    res.render('index', data)
+    db.getAll()
+        .then(
+            resolve => {
+                console.dir(resolve)
+                res.render('index', { tasks: resolve })
+            },
+            error => {
+                console.dir('error index.js')
+            }
+        )
 })
 
-// обработка post запроса
-app.post('/getnews', (req, res) => {
-    // сбор данных и запуск функции.
-    console.dir(req)
-    // console.log(req.body.count)
+app.post('/add', (req, res) => {
+    // console.dir(req.body)
+    db.add(req.body.task).then( () => {
+        res.redirect('/')        
+    })
+})
 
-    
-    getNews('admin', 10).then( 
-        (result) => {
-            
-            data.news = result;
-            data.req = req;
-            // console.dir(req)
-            res.render('index', data)
-        },
-        (error) => {
-            console.error(error)
-        })
+app.get('/delete/:id', (req, res) => {
+    console.dir(req.params)
+    db.delete(req.params.id).then( (sql) => {
+        console.dir(sql)
+        res.redirect('/')        
+    })
 })
 
 // server create
-app.listen(PORT, () => {
-    console.log(`Server listening on http://localhost:${PORT}, Ctrl+C to stop`);
+app.listen(config.server.port, () => {
+    console.log(`Server listening on http://localhost:${config.server.port}, Ctrl+C to stop`);
 })
-// server.listen(PORT, 'localhost');
-// server.on('listening', function () {
-//   console.log('Express server started on port %s at %s', server.address().port, server.address().address);
-// });
